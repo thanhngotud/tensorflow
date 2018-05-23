@@ -111,8 +111,6 @@ install(TARGETS tensorflow EXPORT tensorflow_export
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
-target_link_libraries(tensorflow PUBLIC tf_protos_cc.lib libprotobuf.lib )
-
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/Release/
         DESTINATION lib/tensorflow_depend
 	   FILES_MATCHING PATTERN "libprotobuf.lib")
