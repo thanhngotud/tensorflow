@@ -52,13 +52,12 @@ if(WIN32)
     set(tensorflow_deffile "${CMAKE_CURRENT_BINARY_DIR}/tensorflow.def")
   endif()
   set_source_files_properties(${tensorflow_deffile} PROPERTIES GENERATED TRUE)
-  math(EXPR tensorflow_target_bitness "${CMAKE_SIZEOF_VOID_P}*8")
+
   add_custom_command(TARGET tensorflow_static POST_BUILD
       COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/create_def_file.py
           --input "${tensorflow_static_dependencies}"
           --output "${tensorflow_deffile}"
           --target tensorflow.dll
-          --bitness "${tensorflow_target_bitness}"
   )
 endif(WIN32)
 
@@ -73,6 +72,7 @@ add_library(tensorflow SHARED
     $<TARGET_OBJECTS:tf_core_lib>
     $<TARGET_OBJECTS:tf_core_cpu>
     $<TARGET_OBJECTS:tf_core_framework>
+    $<TARGET_OBJECTS:tf_cc_ops>
     $<TARGET_OBJECTS:tf_core_ops>
     $<TARGET_OBJECTS:tf_core_direct_session>
     $<TARGET_OBJECTS:tf_tools_transform_graph_lib>
@@ -84,9 +84,9 @@ add_library(tensorflow SHARED
 )
 
 target_link_libraries(tensorflow PRIVATE
+    tf_protos_cc
     ${tf_core_gpu_kernels_lib}
     ${tensorflow_EXTERNAL_LIBRARIES}
-    tf_protos_cc
 )
 
 # There is a bug in GCC 5 resulting in undefined reference to a __cpu_model function when
@@ -97,20 +97,28 @@ if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0)
 endif()
 
 if(WIN32)
-  add_dependencies(tensorflow tensorflow_static)
+  add_dependencies(tensorflow tensorflow_static )
 endif(WIN32)
 
 target_include_directories(tensorflow PUBLIC 
-    $<INSTALL_INTERFACE:include/>)
+    $<INSTALL_INTERFACE:include/>
+    $<INSTALL_INTERFACE:include/external/nsync/public>)
 
 install(TARGETS tensorflow EXPORT tensorflow_export
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
-        
+
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/Release/
+        DESTINATION lib/tensorflow_depend
+	   FILES_MATCHING PATTERN "libprotobuf.lib")
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Release/
+        DESTINATION lib/tensorflow_depend
+        FILES_MATCHING PATTERN "tf_protos_cc.lib")
 install(EXPORT tensorflow_export
         FILE TensorflowConfig.cmake
-        DESTINATION lib/cmake)
+        DESTINATION lib)
+
 
 # install necessary headers
 # tensorflow headers
@@ -132,6 +140,10 @@ install(DIRECTORY ${tensorflow_source_dir}/tensorflow/stream_executor/
 # google protobuf headers
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/src/google/
         DESTINATION include/google
+        FILES_MATCHING PATTERN "*.h")
+# nsync headers
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/nsync/
+        DESTINATION include/external/nsync
         FILES_MATCHING PATTERN "*.h")
 # Eigen directory
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/eigen/src/eigen/Eigen/
