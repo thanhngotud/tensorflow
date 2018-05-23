@@ -72,6 +72,7 @@ add_library(tensorflow SHARED
     $<TARGET_OBJECTS:tf_core_lib>
     $<TARGET_OBJECTS:tf_core_cpu>
     $<TARGET_OBJECTS:tf_core_framework>
+    $<TARGET_OBJECTS:tf_cc_ops>
     $<TARGET_OBJECTS:tf_core_ops>
     $<TARGET_OBJECTS:tf_core_direct_session>
     $<TARGET_OBJECTS:tf_tools_transform_graph_lib>
@@ -83,10 +84,12 @@ add_library(tensorflow SHARED
 )
 
 target_link_libraries(tensorflow PRIVATE
+    tf_protos_cc
     ${tf_core_gpu_kernels_lib}
     ${tensorflow_EXTERNAL_LIBRARIES}
-    tf_protos_cc
 )
+
+set_target_properties(tensorflow PROPERTIES LINK_FLAGS "/WHOLEARCHIVE:libprotobuf.lib /WHOLEARCHIVE:tf_protos_cc.lib")
 
 # There is a bug in GCC 5 resulting in undefined reference to a __cpu_model function when
 # linking to the tensorflow library. Adding the following libraries fixes it.
@@ -96,7 +99,7 @@ if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0)
 endif()
 
 if(WIN32)
-  add_dependencies(tensorflow tensorflow_static)
+  add_dependencies(tensorflow tensorflow_static )
 endif(WIN32)
 
 target_include_directories(tensorflow PUBLIC 
@@ -107,10 +110,19 @@ install(TARGETS tensorflow EXPORT tensorflow_export
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
-        
+
+target_link_libraries(tensorflow PUBLIC tf_protos_cc.lib libprotobuf.lib )
+
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/Release/
+        DESTINATION lib/tensorflow_depend
+	   FILES_MATCHING PATTERN "libprotobuf.lib")
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Release/
+        DESTINATION lib/tensorflow_depend
+        FILES_MATCHING PATTERN "tf_protos_cc.lib")
 install(EXPORT tensorflow_export
         FILE TensorflowConfig.cmake
-        DESTINATION lib/cmake)
+        DESTINATION lib)
+
 
 # install necessary headers
 # tensorflow headers
