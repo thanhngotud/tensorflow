@@ -35,6 +35,10 @@ option(tensorflow_WIN_CPU_SIMD_OPTIONS "Enables CPU SIMD instructions")
 option(tensorflow_ENABLE_SNAPPY_SUPPORT "Enable SNAPPY compression support" ON)
 option(tensorflow_DISABLE_EIGEN_FORCEINLINE "Disable forceinline, to speed up build on windows." OFF)
 
+#Find Protobuf
+find_package(Protobuf REQUIRED)
+set(protobuf_STATIC_LIBRARIES ${PROTOBUF_LIBRARY} )
+
 # GPU, CUDA and cuDNN options
 option(tensorflow_ENABLE_GPU "Enable GPU support" OFF)
 set(tensorflow_CUDA_VERSION "9.0" CACHE STRING "CUDA version to build against")
@@ -189,7 +193,7 @@ include(farmhash)
 include(fft2d)
 include(highwayhash)
 include(nsync)
-include(protobuf)
+#include(protobuf)
 include(re2)
 include(cub)
 include(sqlite)
@@ -233,7 +237,7 @@ set(tensorflow_EXTERNAL_DEPENDENCIES
     farmhash_copy_headers_to_destination
     highwayhash_copy_headers_to_destination
     nsync_copy_headers_to_destination
-    protobuf
+  # protobuf
     eigen
     gemmlowp
     cub
