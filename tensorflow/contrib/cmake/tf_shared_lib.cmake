@@ -146,14 +146,14 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/nsync/
         DESTINATION include/external/nsync
         FILES_MATCHING PATTERN "*.h")
 # Eigen directory
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/eigen/src/eigen/Eigen/
-        DESTINATION include/Eigen)
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/eigen/src/eigen/Eigen/
+#        DESTINATION include/Eigen)
 # external directory
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/eigen_archive/
-        DESTINATION include/external/eigen_archive)
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/eigen_archive/
+#        DESTINATION include/external/eigen_archive)
 # third_party eigen directory
-install(DIRECTORY ${tensorflow_source_dir}/third_party/eigen3/
-        DESTINATION include/third_party/eigen3)
+#install(DIRECTORY ${tensorflow_source_dir}/third_party/eigen3/
+#        DESTINATION include/third_party/eigen3)
 # unsupported Eigen directory
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/eigen/src/eigen/unsupported/Eigen/
-        DESTINATION include/unsupported/Eigen)
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/eigen/src/eigen/unsupported/Eigen/
+#       DESTINATION include/unsupported/Eigen)
