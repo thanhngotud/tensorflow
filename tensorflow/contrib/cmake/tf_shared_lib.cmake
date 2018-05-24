@@ -117,7 +117,7 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Release/
         FILES_MATCHING PATTERN "tf_protos_cc.lib")
 install(EXPORT tensorflow_export
         FILE TensorflowConfig.cmake
-        DESTINATION lib)
+        DESTINATION cmake)
 
 
 # install necessary headers
