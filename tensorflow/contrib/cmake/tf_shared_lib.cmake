@@ -89,8 +89,6 @@ target_link_libraries(tensorflow PRIVATE
     ${tensorflow_EXTERNAL_LIBRARIES}
 )
 
-set_target_properties(tensorflow PROPERTIES LINK_FLAGS "/WHOLEARCHIVE:libprotobuf.lib /WHOLEARCHIVE:tf_protos_cc.lib")
-
 # There is a bug in GCC 5 resulting in undefined reference to a __cpu_model function when
 # linking to the tensorflow library. Adding the following libraries fixes it.
 # See issue on github: https://github.com/tensorflow/tensorflow/issues/9593
@@ -111,9 +109,9 @@ install(TARGETS tensorflow EXPORT tensorflow_export
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/Release/
-        DESTINATION lib/tensorflow_depend
-	   FILES_MATCHING PATTERN "libprotobuf.lib")
+#install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/Release/
+#        DESTINATION lib/tensorflow_depend
+#	   FILES_MATCHING PATTERN "libprotobuf.lib")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Release/
         DESTINATION lib/tensorflow_depend
         FILES_MATCHING PATTERN "tf_protos_cc.lib")
@@ -140,9 +138,9 @@ install(DIRECTORY ${tensorflow_source_dir}/tensorflow/stream_executor/
         DESTINATION include/tensorflow/stream_executor
         FILES_MATCHING PATTERN "*.h")
 # google protobuf headers
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/src/google/
-        DESTINATION include/google
-        FILES_MATCHING PATTERN "*.h")
+#install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/src/google/
+#        DESTINATION include/google
+#        FILES_MATCHING PATTERN "*.h")
 # nsync headers
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/nsync/
         DESTINATION include/external/nsync
