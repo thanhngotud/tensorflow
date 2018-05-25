@@ -108,8 +108,8 @@ endfunction()
 # External dependencies
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/external)
 find_package(Eigen3 REQUIRED)
-set (eigen_INCLUDE_DIRS  ${EIGEN3_INCLUDE_DIR} )
-message("eigen_INCLUDE_DIRS: ${EIGEN3_INCLUDE_DIR}")
+set (eigen_INCLUDE_DIRS  ${EIGEN3_INCLUDE_DIR} ${tensorflow_source_dir}/third_party/eigen3 )
+message("eigen_INCLUDE_DIRS: ${eigen_INCLUDE_DIRS}")
 
 # Location where external projects will be downloaded
 set (DOWNLOAD_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/downloads"
