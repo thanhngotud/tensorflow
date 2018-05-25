@@ -151,8 +151,8 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/nsync/
 # install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/external/eigen_archive/
 #        DESTINATION include/external/eigen_archive)
 # third_party eigen directory
-#install(DIRECTORY ${tensorflow_source_dir}/third_party/eigen3/
-#        DESTINATION include/third_party/eigen3)
+install(DIRECTORY ${tensorflow_source_dir}/third_party/eigen3/
+        DESTINATION include/third_party/eigen3)
 # unsupported Eigen directory
 # install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/eigen/src/eigen/unsupported/Eigen/
 #       DESTINATION include/unsupported/Eigen)
