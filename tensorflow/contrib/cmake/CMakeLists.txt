@@ -107,7 +107,7 @@ endfunction()
 
 # External dependencies
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/external)
-find_package(Eigen3 3.1.2)
+find_package(Eigen3 REQUIRED)
 set (eigen_INCLUDE_DIRS  ${EIGEN3_INCLUDE_DIR} )
 message("eigen_INCLUDE_DIRS: ${EIGEN3_INCLUDE_DIR}")
 
