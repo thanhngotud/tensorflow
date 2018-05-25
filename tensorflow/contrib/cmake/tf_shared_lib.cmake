@@ -113,13 +113,12 @@ install(TARGETS tensorflow EXPORT tensorflow_export
 #        DESTINATION lib/tensorflow_depend
 #	   FILES_MATCHING PATTERN "libprotobuf.lib")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Release/
-        DESTINATION lib/tensorflow_depend
+        DESTINATION lib
         FILES_MATCHING PATTERN "tf_protos_cc.lib")
 install(EXPORT tensorflow_export
         FILE TensorflowConfig.cmake
-        DESTINATION cmake)
-
-
+        DESTINATION lib/cmake/Tensorflow)
+        
 # install necessary headers
 # tensorflow headers
 install(DIRECTORY ${tensorflow_source_dir}/tensorflow/cc/
