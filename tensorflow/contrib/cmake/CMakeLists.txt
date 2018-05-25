@@ -107,10 +107,6 @@ endfunction()
 
 # External dependencies
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/external)
-find_package(Eigen3 REQUIRED)
-set (eigen_INCLUDE_DIRS  ${EIGEN3_INCLUDE_DIR} ${tensorflow_source_dir}/third_party/eigen3 )
-message("eigen_INCLUDE_DIRS: ${eigen_INCLUDE_DIRS}")
-
 # Location where external projects will be downloaded
 set (DOWNLOAD_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/downloads"
      CACHE PATH "Location where external projects will be downloaded.")
@@ -189,7 +185,7 @@ include(gif)
 include(png)
 include(jpeg)
 include(lmdb)
-#include(eigen)
+include(eigen)
 include(gemmlowp)
 include(jsoncpp)
 include(farmhash)
@@ -241,7 +237,7 @@ set(tensorflow_EXTERNAL_DEPENDENCIES
     highwayhash_copy_headers_to_destination
     nsync_copy_headers_to_destination
   # protobuf
-  #  eigen
+    eigen
     gemmlowp
     cub
     fft2d
